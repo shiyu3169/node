@@ -49,10 +49,12 @@ app.post(
         const { firstName, lastName, email } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            res.render("index", {
-                title: "Customers",
-                users: users,
-                errors: errors.array()
+            db.users.find(function(err, docs) {
+                res.render("index", {
+                    title: "Customers",
+                    users: docs,
+                    errors: errors.array()
+                });
             });
         } else {
             const newUser = {
@@ -60,7 +62,12 @@ app.post(
                 lastName,
                 email
             };
-            console.log("SUCCESS");
+            db.users.insert(newUser, function(err, result) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect("/");
+            });
         }
     }
 );
