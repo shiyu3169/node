@@ -34,7 +34,7 @@ const people = [
 ];
 
 app.get("/", function(req, res) {
-    res.render("index");
+    res.render("index", { title: "Customers" });
 });
 
 app.listen(3000, function() {
