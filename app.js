@@ -22,6 +22,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Set Static Path
 app.use(express.static(path.join(__dirname, "public")));
 
+// Global Vars
+app.use(function(req, res, next) {
+    res.locals.errors = null;
+    next();
+});
+
 // const person = {
 //     name: "Jeff",
 //     age: 30
@@ -46,15 +52,25 @@ app.get("/", function(req, res) {
 app.post(
     "/users/add",
     [
-        check("firstName").isLength({ min: 1 }),
-        check("lastName").isLength({ min: 1 }),
-        check("email").isLength({ min: 1 })
+        check("firstName")
+            .isLength({ min: 1 })
+            .withMessage("invalid first name"),
+        check("lastName")
+            .isLength({ min: 1 })
+            .withMessage("invalid last name"),
+        check("email")
+            .isLength({ min: 1 })
+            .withMessage("invalid email")
     ],
     (req, res) => {
         const { firstName, lastName, email } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log("ERRORS");
+            res.render("index", {
+                title: "Customers",
+                users: users,
+                errors: errors.array()
+            });
         } else {
             const newUser = {
                 firstName,
