@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-
+const { check, validationResult } = require("express-validator/check");
 const app = express();
 
 // const logger = function(req, res, next) {
@@ -43,15 +43,28 @@ app.get("/", function(req, res) {
     res.render("index", { title: "Customers", users: users });
 });
 
-app.post("/users/add", function(req, res) {
-    const { firstName, lastName, email } = req.body;
-    const newUser = {
-        firstName,
-        lastName,
-        email
-    };
-    console.log(newUser);
-});
+app.post(
+    "/users/add",
+    [
+        check("firstName").isLength({ min: 1 }),
+        check("lastName").isLength({ min: 1 }),
+        check("email").isLength({ min: 1 })
+    ],
+    (req, res) => {
+        const { firstName, lastName, email } = req.body;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log("ERRORS");
+        } else {
+            const newUser = {
+                firstName,
+                lastName,
+                email
+            };
+            console.log("SUCCESS");
+        }
+    }
+);
 
 app.listen(3000, function() {
     console.log("Server started on port 3000");
