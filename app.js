@@ -27,14 +27,20 @@ app.use(express.static(path.join(__dirname, "public")));
 //     age: 30
 // };
 
-const people = [
-    { name: "jeff", age: 30 },
-    { name: "Sara", age: 22 },
-    { name: "Bill", age: 40 }
+// const people = [
+//     { name: "jeff", age: 30 },
+//     { name: "Sara", age: 22 },
+//     { name: "Bill", age: 40 }
+// ];
+
+const users = [
+    { firstName: "John", lastName: "Doe", email: "johndoe@gmail.com" },
+    { firstName: "Bob", lastName: "Smith", email: "bobsmith@gmail.com" },
+    { firstName: "Jill", lastName: "Jacksom", email: "jjackson@gmail.com" }
 ];
 
 app.get("/", function(req, res) {
-    res.render("index", { title: "Customers" });
+    res.render("index", { title: "Customers", users: users });
 });
 
 app.listen(3000, function() {
