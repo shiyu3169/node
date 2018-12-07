@@ -2,14 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const { check, validationResult } = require("express-validator/check");
+const mongojs = require("mongojs");
+
+var db = mongojs("customerapp", ["users"]);
+
 const app = express();
-
-// const logger = function(req, res, next) {
-//     console.log("Logging...");
-//     next();
-// };
-
-// app.use(logger);
 
 // View Engine
 app.set("view engine", "ejs");
@@ -28,25 +25,11 @@ app.use(function(req, res, next) {
     next();
 });
 
-// const person = {
-//     name: "Jeff",
-//     age: 30
-// };
-
-// const people = [
-//     { name: "jeff", age: 30 },
-//     { name: "Sara", age: 22 },
-//     { name: "Bill", age: 40 }
-// ];
-
-const users = [
-    { firstName: "John", lastName: "Doe", email: "johndoe@gmail.com" },
-    { firstName: "Bob", lastName: "Smith", email: "bobsmith@gmail.com" },
-    { firstName: "Jill", lastName: "Jacksom", email: "jjackson@gmail.com" }
-];
-
 app.get("/", function(req, res) {
-    res.render("index", { title: "Customers", users: users });
+    db.users.find(function(err, docs) {
+        console.log(docs);
+        res.render("index", { title: "Customers", users: docs });
+    });
 });
 
 app.post(
