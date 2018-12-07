@@ -18,8 +18,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Set Static Path
 app.use(express.static(path.join(__dirname, "public")));
 
+// const person = {
+//     name: "Jeff",
+//     age: 30
+// };
+
+const people = [
+    { name: "jeff", age: 30 },
+    { name: "Sara", age: 22 },
+    { name: "Bill", age: 40 }
+];
+
 app.get("/", function(req, res) {
-    res.send("hello world");
+    res.json(people);
 });
 
 app.listen(3000, function() {
