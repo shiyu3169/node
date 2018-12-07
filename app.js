@@ -43,6 +43,16 @@ app.get("/", function(req, res) {
     res.render("index", { title: "Customers", users: users });
 });
 
+app.post("/users/add", function(req, res) {
+    const { firstName, lastName, email } = req.body;
+    const newUser = {
+        firstName,
+        lastName,
+        email
+    };
+    console.log(newUser);
+});
+
 app.listen(3000, function() {
     console.log("Server started on port 3000");
 });
