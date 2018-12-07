@@ -24,6 +24,6 @@
 <h1><%= title %></h1>
 
 <% users.forEach( function(user){ %>
-<li><%= user.firstName %> <%= user.lastName %></li>
+<li><%= user.firstName %> <%= user.lastName %> - <a href="#" class="deleteUser" data-id="<%= user._id %>">Delete</a></li>
 <%} ) %> 
 <% include partials/footer %>

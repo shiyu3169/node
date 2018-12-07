@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const { check, validationResult } = require("express-validator/check");
 const mongojs = require("mongojs");
+const ObjectId = mongojs.ObjectId;
 
 var db = mongojs("customerapp", ["users"]);
 
@@ -27,7 +28,6 @@ app.use(function(req, res, next) {
 
 app.get("/", function(req, res) {
     db.users.find(function(err, docs) {
-        console.log(docs);
         res.render("index", { title: "Customers", users: docs });
     });
 });
@@ -71,6 +71,16 @@ app.post(
         }
     }
 );
+
+app.delete("/users/delete/:id", function(req, res) {
+    // console.log(req.params.id);
+    db.users.remove({ _id: ObjectId(req.params.id) }, function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect("/");
+    });
+});
 
 app.listen(3000, function() {
     console.log("Server started on port 3000");
