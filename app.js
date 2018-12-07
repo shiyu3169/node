@@ -11,9 +11,12 @@ const app = express();
 
 // app.use(logger);
 
-// Body Parse Middleware
+// Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Set Static Path
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", function(req, res) {
     res.send("hello world");
