@@ -11,6 +11,10 @@ const app = express();
 
 // app.use(logger);
 
+// View Engine
+app.set("view engine", "ejs");
+app.set("vies", path.join(__dirname, "views"));
+
 // Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,7 +34,7 @@ const people = [
 ];
 
 app.get("/", function(req, res) {
-    res.json(people);
+    res.render("index");
 });
 
 app.listen(3000, function() {
